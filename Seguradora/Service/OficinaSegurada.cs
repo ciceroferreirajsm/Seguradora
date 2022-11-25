@@ -1,6 +1,7 @@
 ﻿using Seguradora.Entities;
 using Seguradora.Intefaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProjetoExemploAPI.Services
@@ -37,6 +38,18 @@ namespace ProjetoExemploAPI.Services
             try
             {
                 return await _OficinaSeguradaRepository.ObterPorId(idOficinaSegurada);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<OficinaSegurada>> ObterTodasOficinaSeguradas()
+        {
+            try
+            {
+                return await _OficinaSeguradaRepository.ObterTodosOficinaSeguradas();
             }
             catch (Exception ex)
             {

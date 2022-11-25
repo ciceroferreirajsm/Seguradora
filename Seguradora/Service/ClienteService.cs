@@ -1,6 +1,8 @@
 ﻿using Seguradora.Entities;
 using Seguradora.Intefaces;
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ProjetoExemploAPI.Services
@@ -44,6 +46,18 @@ namespace ProjetoExemploAPI.Services
             }
         }
 
+        public async Task<List<Cliente>> ObterTodosClientes()
+        {
+            try
+            {
+                return await _clienteRepository.ObterTodosClientes();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> ExcluirCliente(int idCLiente)
         {
             try
@@ -61,6 +75,62 @@ namespace ProjetoExemploAPI.Services
             try
             {
                 return await _clienteRepository.AtualizarCliente(cLiente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> LogarUsuario(Usuario usuario)
+        {
+            try
+            {
+                if(ValidarFormato(usuario.CpfCnpj))
+                    return await _clienteRepository.LogarUsuario(usuario);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool ValidarFormato(string cpfCnpj)
+        {
+            try
+            {
+                if (cpfCnpj.Length == 11)
+                {
+                    var reg = new Regex(@"/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/");
+
+                    if (!reg.IsMatch(cpfCnpj))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception("Formato do CPF inválido");
+                    }
+                }
+                else if (cpfCnpj.Length == 14)
+                {
+                    var reg = new Regex(@"/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/");
+
+                    if (!reg.IsMatch(cpfCnpj))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception("Formato do CNPJ inválido");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Formato do login inválido");
+                }
             }
             catch (Exception ex)
             {

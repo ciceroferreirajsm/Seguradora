@@ -10,8 +10,12 @@ namespace Seguradora.Intefaces
 
         Task<Cliente> ObterPorId(int idCLiente);
 
+        Task<List<Cliente>> ObterTodosClientes();
+
         Task<bool> ExcluirCliente(int idCLiente);
 
         Task<Cliente> AtualizarCliente(Cliente cLiente);
+
+        Task<bool> LogarUsuario(Usuario usuario);
     }
 }

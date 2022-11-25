@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Seguradora.Entities;
 using Seguradora.Intefaces;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Seguradora.Controllers
@@ -43,12 +44,33 @@ namespace Seguradora.Controllers
             }
         }
 
+        [HttpGet("ObterTodosClientes")]
+        public async Task<IActionResult> ObterTodosClientes()
+        {
+            try
+            {
+                var retorno = await _clienteService.ObterTodosClientes();
+
+                if (retorno != null && retorno.Any())
+                {
+                    return Ok(retorno);
+                }
+                else
+                {
+                    return BadRequest("Não existem clientes cadastrados!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost("AdicionarCliente")]
         public async Task<IActionResult> AdicionarCliente([FromBody] Cliente cliente)
         {
             try
             {
-                //var cliente = new Cliente();
                 Cliente retorno = await _clienteService.AdicionarCliente(cliente);
 
                 if (retorno != null)
@@ -65,7 +87,6 @@ namespace Seguradora.Controllers
                 throw ex;
             }
         }
-
 
         [HttpDelete("ExcluirCliente/{idCLiente}")]
         public async Task<IActionResult> ExcluirCliente(int idCLiente)
@@ -108,6 +129,28 @@ namespace Seguradora.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> LogarCliente(Usuario usuario)
+        {
+            try
+            {
+                bool clienteLogado = await _clienteService.LogarUsuario(usuario);
+
+                if (clienteLogado)
+                {
+                    return Ok("Cliente logado!");
+                }
+                else
+                {
+                    return BadRequest("Cliente não possui cadastro!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"ERROR - Mensagem - {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Seguradora.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Seguradora.Intefaces
@@ -8,6 +9,8 @@ namespace Seguradora.Intefaces
         Task<Veiculo> InserirOuAtualizar(Veiculo cliente);
 
         Task<Veiculo> ObterPorId(int idVeiculo);
+
+        Task<List<Veiculo>> ObterTodosVeiculos();
 
         Task<bool> ExcluirVeiculo(int idVeiculo);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Seguradora.Entities;
 using Seguradora.Intefaces;
@@ -10,25 +11,25 @@ namespace Seguradora.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VeiculoController : ControllerBase
+    public class SinistroController : ControllerBase
     {
 
-        private readonly ILogger<VeiculoController> _logger;
+        private readonly ILogger<SinistroController> _logger;
 
-        private readonly IVeiculoService _VeiculoService;
+        private readonly ISinistroService _SinistroService;
 
-        public VeiculoController(ILogger<VeiculoController> logger, IVeiculoService VeiculoService)
+        public SinistroController(ILogger<SinistroController> logger, ISinistroService SinistroService)
         {
             _logger = logger;
-            _VeiculoService = VeiculoService;
+            _SinistroService = SinistroService;
         }
 
-        [HttpGet("ObterVeiculoPorId/{IdVeiculo}")]
-        public async Task<IActionResult> ObterVeiculoPorId(int IdVeiculo)
+        [HttpGet("ObterSinistroPorId/{IdSinistro}")]
+        public async Task<IActionResult> ObterSinistroPorId(int IdSinistro)
         {
             try
             {
-                Veiculo retorno = await _VeiculoService.ObterPorId(IdVeiculo);
+                Sinistro retorno = await _SinistroService.ObterPorId(IdSinistro);
 
                 if (retorno != null)
                 {
@@ -45,12 +46,12 @@ namespace Seguradora.Controllers
             }
         }
 
-        [HttpGet("ObterVeiculos")]
-        public async Task<IActionResult> ObterVeiculos()
+        [HttpGet("ObterSinistros")]
+        public async Task<IActionResult> ObterSinistros()
         {
             try
             {
-                var retorno = await _VeiculoService.ObterTodosVeiculos();
+                var retorno = await _SinistroService.ObterTodosSinistros();
 
                 if (retorno != null && retorno.Any())
                 {
@@ -58,7 +59,7 @@ namespace Seguradora.Controllers
                 }
                 else
                 {
-                    return BadRequest("Não existem veiculos cadastrados!");
+                    return BadRequest("Não existem Sinistros cadastrados!");
                 }
             }
             catch (Exception ex)
@@ -67,12 +68,12 @@ namespace Seguradora.Controllers
             }
         }
 
-        [HttpPost("AdicionarVeiculo")]
-        public async Task<IActionResult> AdicionarVeiculo([FromBody] Veiculo Veiculo)
+        [HttpPost("AdicionarSinistro")]
+        public async Task<IActionResult> AdicionarSinistro([FromBody] Sinistro Sinistro)
         {
             try
             {
-                Veiculo retorno = await _VeiculoService.AdicionarVeiculo(Veiculo);
+                Sinistro retorno = await _SinistroService.AdicionarSinistro(Sinistro);
 
                 if (retorno != null)
                 {
@@ -90,14 +91,14 @@ namespace Seguradora.Controllers
         }
 
 
-        [HttpDelete("ExcluirVeiculo/{idVeiculo}")]
-        public async Task<IActionResult> ExcluirVeiculo(int idVeiculo)
+        [HttpDelete("ExcluirSinistro/{idSinistro}")]
+        public async Task<IActionResult> ExcluirSinistro(int idSinistro)
         {
             try
             {
-                bool VeiculoExcluido = await _VeiculoService.ExcluirVeiculo(idVeiculo);
+                bool SinistroExcluido = await _SinistroService.ExcluirSinistro(idSinistro);
 
-                if (VeiculoExcluido)
+                if (SinistroExcluido)
                 {
                     return Ok();
                 }
@@ -112,14 +113,14 @@ namespace Seguradora.Controllers
             }
         }
 
-        [HttpPut("AtualizarVeiculo")]
-        public async Task<IActionResult> AtualizarVeiculo(Veiculo veiculo)
+        [HttpPut("AtualizarSinistro")]
+        public async Task<IActionResult> AtualizarSinistro(Sinistro Sinistro)
         {
             try
             {
-                Veiculo VeiculoAtualizado = await _VeiculoService.AtualizarVeiculo(veiculo);
+                Sinistro SinistroAtualizado = await _SinistroService.AtualizarSinistro(Sinistro);
 
-                if (VeiculoAtualizado != null)
+                if (SinistroAtualizado != null)
                 {
                     return Ok();
                 }

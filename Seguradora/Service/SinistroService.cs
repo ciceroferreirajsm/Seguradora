@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace ProjetoExemploAPI.Services
 {
-    public class VeiculoService : IVeiculoService
+    public class SinistroService : ISinistroService
     {
         #region Propriedades
 
-        private readonly IVeiculoRepository _VeiculoRepository;
+        private readonly ISinistroRepository _SinistroRepository;
 
         #endregion Propriedades
 
         #region Construtores
 
-        public VeiculoService(IVeiculoRepository VeiculoRepository)
+        public SinistroService(ISinistroRepository SinistroRepository)
         {
-            _VeiculoRepository = VeiculoRepository ?? throw new ArgumentNullException(nameof(VeiculoRepository));
+            _SinistroRepository = SinistroRepository ?? throw new ArgumentNullException(nameof(SinistroRepository));
         }
 
-        public async Task<Veiculo> AdicionarVeiculo(Veiculo Veiculo)
+        public async Task<Sinistro> AdicionarSinistro(Sinistro Sinistro)
         {
             try
             {
-                return await _VeiculoRepository.InserirOuAtualizar(Veiculo); 
+                return await _SinistroRepository.InserirOuAtualizar(Sinistro); 
             }
             catch (Exception ex)
             {
@@ -33,34 +33,22 @@ namespace ProjetoExemploAPI.Services
             }
         }
 
-        public async Task<Veiculo> ObterPorId(int idVeiculo)
+        public async Task<Sinistro> ObterPorId(int idSinistro)
         {
             try
             {
-                return await _VeiculoRepository.ObterPorId(idVeiculo);
+                return await _SinistroRepository.ObterPorId(idSinistro);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public async Task<List<Veiculo>> ObterTodosVeiculos()
+        public async Task<List<Sinistro>> ObterTodosSinistros()
         {
             try
             {
-                return await _VeiculoRepository.ObterTodosVeiculos();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<bool> ExcluirVeiculo(int idVeiculo)
-        {
-            try
-            {
-                return await _VeiculoRepository.ExcluirVeiculo(idVeiculo);
+                return await _SinistroRepository.ObterTodosSinistros();
             }
             catch (Exception ex)
             {
@@ -68,11 +56,23 @@ namespace ProjetoExemploAPI.Services
             }
         }
 
-        public async Task<Veiculo> AtualizarVeiculo(Veiculo Veiculo)
+        public async Task<bool> ExcluirSinistro(int idSinistro)
         {
             try
             {
-                return await _VeiculoRepository.AtualizarVeiculo(Veiculo);
+                return await _SinistroRepository.ExcluirSinistro(idSinistro);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Sinistro> AtualizarSinistro(Sinistro Sinistro)
+        {
+            try
+            {
+                return await _SinistroRepository.AtualizarSinistro(Sinistro);
             }
             catch (Exception ex)
             {

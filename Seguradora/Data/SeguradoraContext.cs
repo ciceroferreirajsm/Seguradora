@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Seguradora.Entities;
-using System.Threading.Tasks;
 
 namespace Seguradora.Data
 {
@@ -19,5 +18,7 @@ namespace Seguradora.Data
         public DbSet<Veiculo> Veiculo { get; set; }
 
         public DbSet<OficinaSegurada> OficinaSegurada { get; set; }
+
+        public DbSet<Sinistro> Sinistro { get; set; }
     }
 }

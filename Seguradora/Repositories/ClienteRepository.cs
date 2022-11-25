@@ -57,6 +57,18 @@ namespace Seguradora.Repository
             }
         }
 
+        public async Task<List<Cliente>> ObterTodosClientes()
+        {
+            try
+            {
+                return _context.Cliente.OrderBy(x => x.IdCliente).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> ExcluirCliente(int IdCliente)
         {
             try
@@ -99,6 +111,7 @@ namespace Seguradora.Repository
                         IdCliente = Cliente.IdCliente,
                         Nome = Cliente.Nome,
                         Celular = Cliente.Celular,
+                        CpfCnpj = Cliente.CpfCnpj,
                         CEP = Cliente.CEP,
                         Email = Cliente.Email,
                         Endereco = Cliente.Endereco,
@@ -111,6 +124,22 @@ namespace Seguradora.Repository
 
                     return obj;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> LogarUsuario(Usuario usuario)
+        {
+            try
+            {
+                if (_context.Cliente.FirstOrDefault(x => x.CpfCnpj == usuario.CpfCnpj && x.Senha == usuario.Senha) != null)
+                    return true;
+
+                return false;
+
             }
             catch (Exception ex)
             {

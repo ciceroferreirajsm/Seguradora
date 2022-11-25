@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Seguradora.Entities;
 using Seguradora.Intefaces;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Seguradora.Controllers
@@ -36,6 +37,28 @@ namespace Seguradora.Controllers
                 else
                 {
                     return BadRequest("Object was Not Found");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet("ObterOficinaSeguradas")]
+        public async Task<IActionResult> ObterOficinaSeguradas()
+        {
+            try
+            {
+                var retorno = await _OficinaSeguradaService.ObterTodasOficinaSeguradas();
+
+                if (retorno != null && retorno.Any())
+                {
+                    return Ok(retorno);
+                }
+                else
+                {
+                    return BadRequest("Não existem Oficinas cadastrados!");
                 }
             }
             catch (Exception ex)

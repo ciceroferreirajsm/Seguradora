@@ -58,6 +58,18 @@ namespace Seguradora.Repository
             }
         }
 
+        public async Task<List<OficinaSegurada>> ObterTodosOficinaSeguradas()
+        {
+            try
+            {
+                return _context.OficinaSegurada.OrderBy(x => x.IdOficinaSegurada).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> ExcluirOficinaSegurada(int IdOficinaSegurada)
         {
             try

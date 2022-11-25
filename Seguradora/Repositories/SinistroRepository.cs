@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace Seguradora.Repository
 {
-    public class VeiculoRepository : IVeiculoRepository
+    public class SinistroRepository : ISinistroRepository
     {
         private readonly SeguradoraContext _context;
 
-        public VeiculoRepository(SeguradoraContext context)
+        public SinistroRepository(SeguradoraContext context)
         {
             _context = context;
         }
 
-        public async Task<Veiculo> InserirOuAtualizar(Veiculo Veiculo)
+        public async Task<Sinistro> InserirOuAtualizar(Sinistro Sinistro)
         {
             try
             {
-                Veiculo obj = _context.Veiculo.FirstOrDefault(x => x.IdVeiculo == Veiculo.IdVeiculo);
+                Sinistro obj = _context.Sinistro.FirstOrDefault(x => x.IdSinistro == Sinistro.IdSinistro);
 
                 if (obj == null)
                 {
-                    await _context.Veiculo.AddAsync(Veiculo);
+                    await _context.Sinistro.AddAsync(Sinistro);
 
                     _context.SaveChanges();
 
-                    return Veiculo;
+                    return Sinistro;
                 }
                 else
                 {
-                    obj = await AtualizarVeiculo(Veiculo);
+                    obj = await AtualizarSinistro(Sinistro);
 
                     return obj;
                 }
@@ -45,11 +45,11 @@ namespace Seguradora.Repository
             }
         }
 
-        public async Task<Veiculo> ObterPorId(int IdVeiculo)
+        public async Task<Sinistro> ObterPorId(int IdSinistro)
         {
             try
             {
-                return _context.Veiculo.FirstOrDefault(x => x.IdVeiculo == IdVeiculo);
+                return _context.Sinistro.FirstOrDefault(x => x.IdSinistro == IdSinistro);
             }
             catch (Exception ex)
             {
@@ -57,28 +57,28 @@ namespace Seguradora.Repository
             }
         }
 
-        public async Task<List<Veiculo>> ObterTodosVeiculos()
+        public async Task<List<Sinistro>> ObterTodosSinistros()
         {
             try
             {
-                return _context.Veiculo.OrderBy(x => x.IdVeiculo).ToList();
+                return _context.Sinistro.OrderBy(x => x.IdSinistro).ToList();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public async Task<bool> ExcluirVeiculo(int IdVeiculo)
+        public async Task<bool> ExcluirSinistro(int IdSinistro)
         {
             try
             {
-                Veiculo obj = _context.Veiculo.FirstOrDefault(x => x.IdVeiculo == IdVeiculo);
+                Sinistro obj = _context.Sinistro.FirstOrDefault(x => x.IdSinistro == IdSinistro);
 
-                _context.Veiculo.Remove(obj);
+                _context.Sinistro.Remove(obj);
 
                 _context.SaveChanges();
 
-                obj = _context.Veiculo.FirstOrDefault(x => x.IdVeiculo == IdVeiculo);
+                obj = _context.Sinistro.FirstOrDefault(x => x.IdSinistro == IdSinistro);
 
                 if (obj == null)
                 {
@@ -93,11 +93,11 @@ namespace Seguradora.Repository
             }
         }
 
-        public async Task<Veiculo> AtualizarVeiculo(Veiculo Veiculo)
+        public async Task<Sinistro> AtualizarSinistro(Sinistro Sinistro)
         {
             try
             {
-                Veiculo obj = await _context.Veiculo.AsNoTracking().FirstOrDefaultAsync(x => x.IdVeiculo == Veiculo.IdVeiculo);
+                Sinistro obj = await _context.Sinistro.AsNoTracking().FirstOrDefaultAsync(x => x.IdSinistro == Sinistro.IdSinistro);
 
                 if (obj == null)
                 {
@@ -105,17 +105,18 @@ namespace Seguradora.Repository
                 }
                 else
                 {
-                    obj = new Veiculo()
+                    obj = new Sinistro()
                     {
-                        IdVeiculo = Veiculo.IdVeiculo,
-                        Ano = Veiculo.Ano,
-                        Marca = Veiculo.Marca,
-                        Modelo = Veiculo.Modelo,
-                        Placa = Veiculo.Placa,
-                        ValorFipe = Veiculo.ValorFipe
+                        IdSinistro = Sinistro.IdSinistro,
+                        IdCLiente = Sinistro.IdCLiente,
+                        IdVeiculo = Sinistro.IdVeiculo,
+                        Data = Sinistro.Data,
+                        Descricao = Sinistro.Descricao,
+                        Endereco = Sinistro.Endereco,
+                        Valor = Sinistro.Valor
                     };
 
-                    _context.Veiculo.Update(obj);
+                    _context.Sinistro.Update(obj);
 
                     _context.SaveChanges();
 
