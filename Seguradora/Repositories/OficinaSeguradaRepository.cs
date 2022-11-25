@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Seguradora.Data;
 using Seguradora.Entities;
 using Seguradora.Intefaces;
@@ -86,7 +87,7 @@ namespace Seguradora.Repository
         {
             try
             {
-                OficinaSegurada obj = _context.OficinaSegurada.FirstOrDefault(x => x.IdOficinaSegurada == OficinaSegurada.IdOficinaSegurada);
+                OficinaSegurada obj = await _context.OficinaSegurada.AsNoTracking().FirstOrDefaultAsync(x => x.IdOficinaSegurada == OficinaSegurada.IdOficinaSegurada);
 
                 if (obj == null)
                 {

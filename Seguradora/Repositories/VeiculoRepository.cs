@@ -1,4 +1,5 @@
-﻿using Seguradora.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Seguradora.Data;
 using Seguradora.Entities;
 using Seguradora.Intefaces;
 using System;
@@ -85,7 +86,7 @@ namespace Seguradora.Repository
         {
             try
             {
-                Veiculo obj = _context.Veiculo.FirstOrDefault(x => x.IdVeiculo == Veiculo.IdVeiculo);
+                Veiculo obj = await _context.Veiculo.AsNoTracking().FirstOrDefaultAsync(x => x.IdVeiculo == Veiculo.IdVeiculo);
 
                 if (obj == null)
                 {

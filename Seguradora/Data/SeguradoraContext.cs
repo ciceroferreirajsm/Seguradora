@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Seguradora.Entities;
+using System.Threading.Tasks;
 
 namespace Seguradora.Data
 {
